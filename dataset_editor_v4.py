@@ -79,12 +79,22 @@ class ShareGPTEditorV4:
 
         # Text Areas
         tk.Label(container, text="Human Prompt:", fg="#2196F3", font=("Arial", 10, "bold")).pack(anchor="w")
-        self.human_text = tk.Text(container, height=8, undo=True, font=("Consolas", 11), relief="flat", highlightthickness=1, highlightbackground="#ccc")
-        self.human_text.pack(fill=tk.X, pady=(0, 15))
+        h_frame = tk.Frame(container)
+        h_frame.pack(fill=tk.X, pady=(0, 15))
+        h_scroll = ttk.Scrollbar(h_frame, orient="vertical")
+        h_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        self.human_text = tk.Text(h_frame, height=8, wrap=tk.WORD, undo=True, maxundo=50, yscrollcommand=h_scroll.set, font=("Consolas", 11), relief="flat", highlightthickness=1, highlightbackground="#ccc")
+        self.human_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        h_scroll.config(command=self.human_text.yview)
 
         tk.Label(container, text="GPT Answer:", fg="#4CAF50", font=("Arial", 10, "bold")).pack(anchor="w")
-        self.gpt_text = tk.Text(container, height=15, undo=True, font=("Consolas", 11), relief="flat", highlightthickness=1, highlightbackground="#ccc")
-        self.gpt_text.pack(fill=tk.BOTH, expand=True)
+        g_frame = tk.Frame(container)
+        g_frame.pack(fill=tk.BOTH, expand=True)
+        g_scroll = ttk.Scrollbar(g_frame, orient="vertical")
+        g_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        self.gpt_text = tk.Text(g_frame, height=15, wrap=tk.WORD, undo=True, maxundo=50, yscrollcommand=g_scroll.set, font=("Consolas", 11), relief="flat", highlightthickness=1, highlightbackground="#ccc")
+        self.gpt_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        g_scroll.config(command=self.gpt_text.yview)
 
         # Action Buttons Frame
         btn_frame = tk.Frame(container, pady=20)
